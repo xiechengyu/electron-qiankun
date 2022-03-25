@@ -5,13 +5,14 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <!-- <router-view></router-view> -->
     <button @click="cover">遮罩</button>
+    <button @click="setToken">设置token</button>
     <div v-show="isCover" @click="cover" class="cover"></div>
   </div>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-
+import actions from "./actions";
 export default {
   data() {
     return {
@@ -22,9 +23,20 @@ export default {
   components: {
     // HelloWorld
   },
+  mounted() {
+    // 注册观察者函数
+    // onGlobalStateChange 第二个参数为 true，表示立即执行一次观察者函数
+    actions.onGlobalStateChange((state) => {
+      // const { token } = state;
+      console.log("token:", state);
+    }, true);
+  },
   methods: {
     cover() {
       this.isCover = !this.isCover;
+    },
+    setToken() {
+      actions.setGlobalState({ token: 9999 });
     },
   },
 };
